@@ -22,6 +22,7 @@ class MenuItem extends MenuItemProvider {
 
   MenuItem({this.title, this.image, this.userInfo, this.textStyle});
 
+  ///显示抽象类属性
   @override
   Widget get menuImage => image;
 
@@ -35,6 +36,7 @@ class MenuItem extends MenuItemProvider {
 
 enum MenuType { big, oneLine }
 
+///函数
 typedef MenuClickCallback = Function(MenuItemProvider item);
 
 /**
@@ -73,6 +75,8 @@ class PopupMenu {
     this.onClickMenu = onClickMenu;
     this.dismissCallback = onDismiss;
     this.items = items;
+
+    ///默认是4
     this._maxColumn = maxColumn ?? 4;
     this._backgroundColor = backgroundColor ?? Color(0xff232323);
     this._lineColor = lineColor ?? Color(0xff353535);
@@ -83,10 +87,11 @@ class PopupMenu {
   }
 
   void show({Rect rect, GlobalKey widgetKey, List<MenuItem> items}) {
+    ///rect和key必须要有一个
     if (rect == null && widgetKey == null) {
       print("'rect' and 'key' can't be both null");
       return;
-    } 
+    }
 
     this.items = items ?? this.items;
     this._showRect = rect ?? PopupMenu.getWidgetGlobalRect(widgetKey);
@@ -94,16 +99,23 @@ class PopupMenu {
 
     _calculatePosition(PopupMenu.context);
 
+    ///覆盖
     _entry = OverlayEntry(builder: (context) {
       return buildPopupMenuLayout(_offset);
     });
-
+    ///插入
     Overlay.of(PopupMenu.context).insert(_entry);
   }
 
+  ///计算rect
   static Rect getWidgetGlobalRect(GlobalKey key) {
+    ///找到渲染类
     RenderBox renderBox = key.currentContext.findRenderObject();
+
+    ///计算偏移
     var offset = renderBox.localToGlobal(Offset.zero);
+
+    ///计算rect
     return Rect.fromLTWH(
         offset.dx, offset.dy, renderBox.size.width, renderBox.size.height);
   }
@@ -114,6 +126,7 @@ class PopupMenu {
     _offset = _calculateOffset(PopupMenu.context);
   }
 
+  ///计算偏移
   Offset _calculateOffset(BuildContext context) {
     double dx = _showRect.left + _showRect.width / 2.0 - menuWidth() / 2.0;
     if (dx < 10.0) {
@@ -132,11 +145,13 @@ class PopupMenu {
     return Offset(dx, dy);
   }
 
+  ///计算宽度
   double menuWidth() {
     return itemWidth * _col;
   }
 
   // This height exclude the arrow
+  ///计算高度
   double menuHeight() {
     return itemHeight * _row;
   }
@@ -156,7 +171,8 @@ class PopupMenu {
               top: _isDown ? offset.dy + menuHeight() : offset.dy - arrowHeight,
               child: CustomPaint(
                 size: Size(15.0, arrowHeight),
-                painter: TrianglePainter(isDown: _isDown, color: _backgroundColor),
+                painter:
+                    TrianglePainter(isDown: _isDown, color: _backgroundColor),
               ),
             ),
             // menu content
@@ -174,7 +190,7 @@ class PopupMenu {
                           width: menuWidth(),
                           height: menuHeight(),
                           decoration: BoxDecoration(
-                            color: _backgroundColor,
+                              color: _backgroundColor,
                               borderRadius: BorderRadius.circular(10.0)),
                           child: Column(
                             children: _createRows(),
@@ -229,6 +245,7 @@ class PopupMenu {
   }
 
   // calculate row count
+  ///计算行数
   int _calculateRowCount() {
     if (items == null || items.length == 0) {
       debugPrint('error menu items can not be null');
@@ -247,6 +264,7 @@ class PopupMenu {
   }
 
   // calculate col count
+  ///计算列数
   int _calculateColCount() {
     if (items == null || items.length == 0) {
       debugPrint('error menu items can not be null');
@@ -308,6 +326,8 @@ class PopupMenu {
   }
 }
 
+
+///生成item
 class _MenuItemWidget extends StatefulWidget {
   final MenuItem item;
   // 是否要显示右边的分隔线

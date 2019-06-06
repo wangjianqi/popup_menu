@@ -25,6 +25,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   PopupMenu menu;
+  ///生成key
   GlobalKey btnKey = GlobalKey();
   GlobalKey btnKey2 = GlobalKey();
 
@@ -84,7 +85,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 onPressed: customBackground,
                 child: Text('Show Menu'),
               ),
-            )
+            ),
+
           ],
         ),
       ),

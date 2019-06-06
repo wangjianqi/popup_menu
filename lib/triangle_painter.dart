@@ -14,6 +14,7 @@ class TrianglePainter extends CustomPainter {
     _paint.color = color;
     _paint.style = PaintingStyle.fill;
 
+    ///计算路径
     Path path = new Path();
     if (isDown) {
       path.moveTo(0.0, -1.0);
@@ -25,6 +26,7 @@ class TrianglePainter extends CustomPainter {
       path.lineTo(size.width, size.height + 1);
     }
 
+    ///根据路径绘制
     canvas.drawPath(path, _paint);
   }
 
